@@ -28,7 +28,8 @@ jobs:
       - name: Lint with flake8 and pylint
         id: flake8_run
         run: |
-          result=$(pdm run lint)
+          result=$(pdm run lint; exit 0)
+          echo $result
           result="${result//'%'/'%25'}
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
