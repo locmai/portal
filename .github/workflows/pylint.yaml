@@ -10,6 +10,8 @@ on:
 jobs:
   check-pr-convention:
     runs-on: ubuntu-latest
+    outputs:
+      - pr: ${{ steps.findPr.outputs.pr }}
     steps:
       - uses: actions/checkout@v1
       - uses: jwalton/gh-find-current-pr@v1
@@ -26,8 +28,6 @@ jobs:
           access_token: ${{ secrets.GH_PR_TOKEN }}
           close: false
           issue: false
-    outputs:
-      - pr: ${{ steps.findPr.outputs.pr }}
   lint-test:
     runs-on: ubuntu-latest
     needs: check-pr-convention
