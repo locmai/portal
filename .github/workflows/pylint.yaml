@@ -28,10 +28,10 @@ jobs:
       - name: Lint with flake8 and pylint
         id: flake8_run
         run: |
-          LINT_OUTPUT=$(pdm run lint)
-          echo "LINT_OUTPUT<<EOF" >> $LINT_OUTPUT_ENV
-          echo "$LINT_OUTPUT" >> $LINT_OUTPUT_ENV
-          echo "EOF" >> $LINT_OUTPUT_ENV
+          result=$(pdm run lint)
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo "::set-output name=lint_result::$result"
         continue-on-error: true
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
@@ -41,5 +41,5 @@ jobs:
             From flake8 lint:
 
             ```
-              ${{ env.LINT_OUTPUT_ENV }}
+              ${{join(steps.flake8_run.outputs.lint_result, '\n')}}
             ```
