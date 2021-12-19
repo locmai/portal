@@ -8,8 +8,29 @@ on:
       - trunk
 
 jobs:
+  check-pr-convention:
+    runs-on: ubuntu-latest
+    outputs:
+      pr: ${{ steps.findPr.outputs.number }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
+        with:
+          state: all
+      - run: echo "Your PR is ${PR}"
+        if: success() && steps.findPr.outputs.number
+        env:
+          PR: ${{ steps.findPr.outputs.pr }}
+      - name: Validates the pull request
+        uses: Namchee/conventional-pr@v0.7.0
+        with:
+          access_token: ${{ secrets.GH_PR_TOKEN }}
+          close: false
+          issue: false
   lint-test:
     runs-on: ubuntu-latest
+    needs: check-pr-convention
     strategy:
       matrix:
         python-version: ["3.10"]
@@ -36,11 +57,12 @@ jobs:
           echo "::set-output name=lint_result::$result"
         continue-on-error: true
       - name: Create comment
+        if: ${{ steps.flake8_run.outputs.lint_result }}
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: 1
+          issue-number: ${{ needs.check-pr-convention.outputs.pr }}
           body: |
-            From flake8 lint:
+            From flake8 lint for python v${{ matrix.python-version }}:
 
             ```
               ${{ steps.flake8_run.outputs.lint_result }}
