@@ -1,2 +1,2 @@
 USER_COLLECTION = "users"
-BOT_COLLECTION = "comments"
+BOT_COLLECTION = "bots"
