@@ -57,6 +57,7 @@ jobs:
           echo "::set-output name=lint_result::$result"
         continue-on-error: true
       - name: Create comment
+        if: ${{ steps.flake8_run.outputs.lint_result }}
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ needs.check-pr-convention.outputs.pr }}
