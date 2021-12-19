@@ -57,14 +57,36 @@ jobs:
           result="${result//$'\r'/'%0D'}"
           echo "::set-output name=lint_result::$result"
         continue-on-error: true
-      - name: Create comment
+      - name: Create comment for lint issue
         if: ${{ steps.flake8_run.outputs.lint_result }}
         uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ needs.check-pr-convention.outputs.pr }}
           body: |
-            From flake8 lint for python v${{ matrix.python-version }}:
+            From **flake8** lint for python v${{ matrix.python-version }}:
 
             ```
               ${{ steps.flake8_run.outputs.lint_result }}
+            ```
+      - name: Run Pytest
+        id: pytest_run
+        run: |
+          cp example.env .env
+          result=$(pdm run test; exit 0)
+          echo $result
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo "::set-output name=pytest_result::$result"
+        continue-on-error: true
+      - name: Create comment for pytest result
+        if: ${{ steps.pytest_run.outputs.pytest_result }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ needs.check-pr-convention.outputs.pr }}
+          body: |
+            From **pytest** for python v${{ matrix.python-version }}:
+
+            ```
+              ${{ steps.pytest_run.outputs.pytest_result }}
             ```
