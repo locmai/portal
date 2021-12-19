@@ -1,0 +1,34 @@
+[project]
+name = "portal"
+version = ""
+description = ""
+authors = [
+    {name = "Loc Mai", email = "locmai0201@gmail.com"},
+]
+dependencies = [
+    "fastapi",
+    "loguru"]
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[project.urls]
+homepage = ""
+
+[project.optional-dependencies]
+[tool]
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+dev = [
+    "autopep8",
+    "pytest",
+    "uvicorn[standard]",
+    "pylint",
+]
+
+[build-system]
+requires = ["pdm-pep517"]
+build-backend = "pdm.pep517.api"
+
+[tool.pdm.scripts]
+dev = "uvicorn main:app --reload"
+build = "docker build ."

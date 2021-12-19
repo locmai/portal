@@ -1,0 +1,10 @@
+# Packages
+.pdm.toml
+__pypackages__/
+__pycache__/
+
+# IDE
+.vs_code
+
+# Example / Secrets
+.env
