@@ -1,6 +1,4 @@
-name: Build Docker image on Push to Feature branches
-
-name: Lint and Test Charts
+name: Lint and test code
 
 on:
   pull_request:
