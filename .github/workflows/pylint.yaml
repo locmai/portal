@@ -29,6 +29,7 @@ jobs:
         id: flake8_run
         run: |
           result=$(pdm run lint)
+          result="${result//'%'/'%25'}
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
           echo "::set-output name=lint_result::$result"
@@ -41,5 +42,5 @@ jobs:
             From flake8 lint:
 
             ```
-              ${{join(steps.flake8_run.outputs.lint_result, '\n')}}
+              ${{ steps.flake8_run.outputs.lint_result }}
             ```
