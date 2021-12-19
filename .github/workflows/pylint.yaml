@@ -11,7 +11,7 @@ jobs:
   check-pr-convention:
     runs-on: ubuntu-latest
     outputs:
-      - pr: ${{ steps.findPr.outputs.number }}
+      pr: ${{ steps.findPr.outputs.number }}
     steps:
       - uses: actions/checkout@v1
       - uses: jwalton/gh-find-current-pr@v1
