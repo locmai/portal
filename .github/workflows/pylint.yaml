@@ -1,0 +1,47 @@
+name: Lint and test code
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+      - trunk
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pdm
+          pdm install -d
+      - name: Lint with flake8 and pylint
+        id: flake8_run
+        run: |
+          result=$(pdm run lint; exit 0)
+          echo $result
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo "::set-output name=lint_result::$result"
+        continue-on-error: true
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: 1
+          body: |
+            From flake8 lint:
+
+            ```
+              ${{ steps.flake8_run.outputs.lint_result }}
+            ```

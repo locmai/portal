@@ -22,8 +22,7 @@ dev = [
     "autopep8",
     "pytest",
     "uvicorn[standard]",
-    "pylint",
-]
+    "flake8"]
 
 [build-system]
 requires = ["pdm-pep517"]
@@ -32,3 +31,4 @@ build-backend = "pdm.pep517.api"
 [tool.pdm.scripts]
 dev = "uvicorn main:app --reload"
 build = "docker build ."
+lint = "flake8 ."
