@@ -21,8 +21,11 @@ homepage = ""
 dev = [
     "autopep8",
     "pytest",
+    "pytest-cov",
     "uvicorn[standard]",
-    "flake8"]
+    "flake8",
+    "requests",
+]
 
 [build-system]
 requires = ["pdm-pep517"]
@@ -32,3 +35,4 @@ build-backend = "pdm.pep517.api"
 dev = "uvicorn main:app --reload"
 build = "docker build ."
 lint = "flake8 ."
+test = "pytest -q ./tests --cov=portal tests"

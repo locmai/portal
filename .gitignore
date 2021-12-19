@@ -8,3 +8,6 @@ __pycache__/
 
 # Example / Secrets
 .env
+
+# Tests
+.coverage
