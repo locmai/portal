@@ -4,7 +4,7 @@ from typing import List
 
 from loguru import logger
 from starlette.config import Config
-from starlette.datastructures import CommaSeparatedStrings, Secret
+from starlette.datastructures import CommaSeparatedStrings
 
 from core.logging import InterceptHandler
 
@@ -24,7 +24,10 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24  # 1 day
 # JWT authentication
 JWT_TOKEN_TYPE: str = "Bearer"
 SECRET_KEY: str = config("SECRET_KEY", cast=str)
-ACCESS_TOKEN_EXPIRE_MINUTES: config("ACCESS_TOKEN_EXPIRE_MINUTES", cast=int, default=30)
+ACCESS_TOKEN_EXPIRE_MINUTES: config(
+    "ACCESS_TOKEN_EXPIRE_MINUTES",
+    cast=int,
+    default=30)
 ALGORITHM = "HS256"
 
 # Database connection
