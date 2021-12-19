@@ -30,11 +30,10 @@ jobs:
         run: |
           result=$(pdm run lint; exit 0)
           echo $result
-          result="${result//'%'/'%25'}
+          result="${result//'%'/'%25'}"
           result="${result//$'\n'/'%0A'}"
           result="${result//$'\r'/'%0D'}"
           echo "::set-output name=lint_result::$result"
-          echo $result
         continue-on-error: true
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
