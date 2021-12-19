@@ -11,7 +11,7 @@ from core.logging import InterceptHandler
 config = Config(".env")
 
 # Project information
-PROJECT_NAME = "Blog Service"
+PROJECT_NAME = "Portal"
 
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
 
