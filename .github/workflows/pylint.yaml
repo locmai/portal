@@ -28,6 +28,7 @@ jobs:
           access_token: ${{ secrets.GH_PR_TOKEN }}
           close: false
           issue: false
+          body: false
   lint-test:
     runs-on: ubuntu-latest
     needs: check-pr-convention
