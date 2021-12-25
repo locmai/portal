@@ -7,7 +7,9 @@ authors = [
 ]
 dependencies = [
     "fastapi",
-    "loguru"]
+    "loguru",
+    "sqlalchemy",
+]
 requires-python = ">=3.10"
 license = {text = "MIT"}
 
@@ -25,6 +27,7 @@ dev = [
     "uvicorn[standard]",
     "flake8",
     "requests",
+    "black",
 ]
 
 [build-system]
@@ -36,3 +39,6 @@ dev = "uvicorn main:app --reload"
 build = "docker build ."
 lint = "flake8 ."
 test = "pytest -q ./tests --cov=portal tests"
+
+[tool.pytest.ini_options]
+addopts = "-rfEX -p pytester --strict-markers"

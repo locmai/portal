@@ -1,8 +1,9 @@
 from fastapi import FastAPI, APIRouter
 from starlette.middleware.cors import CORSMiddleware
 
-from core.config import PROJECT_NAME, DEBUG, VERSION, ALLOWED_HOSTS
-# from core.events import create_start_app_handler, create_stop_app_handler
+from core.config import PROJECT_NAME, DEBUG, VERSION, ALLOWED_HOSTS, API_PREFIX
+from core.events import create_start_app_handler, create_stop_app_handler
+from routers.routers import get_router
 
 default_router = APIRouter()
 
@@ -23,7 +24,12 @@ def get_application() -> FastAPI:
         allow_headers=["*"],
     )
 
-    # application.include_router(get_router(), prefix=API_PREFIX)
+    application.add_event_handler(
+        "startup", create_start_app_handler(application))
+    application.add_event_handler(
+        "shutdown", create_stop_app_handler(application))
+
+    application.include_router(get_router(), prefix=API_PREFIX)
     application.include_router(default_router)
 
     return application

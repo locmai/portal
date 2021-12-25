@@ -8,6 +8,6 @@ __pycache__/
 
 # Example / Secrets
 .env
-
+*.db
 # Tests
 .coverage

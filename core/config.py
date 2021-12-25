@@ -31,7 +31,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES: config(
 ALGORITHM = "HS256"
 
 # Database connection
-DATABASE_URL: str = config("DATABASE_URL")
+SQLALCHEMY_DATABASE_URI: str = config("SQLALCHEMY_DATABASE_URI")
 MAX_CONNECTIONS: int = config("MAX_CONNECTIONS", cast=int, default=10)
 MIN_CONNECTIONS: int = config("MIN_CONNECTIONS", cast=int, default=0)
 
